@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Demo project for Spring Boot Misc. Dashboards</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+</head>
+<body>
+	<div class="jumbotron vertical-center"> 
+	  <div class="container container-table">
+	     <h2>Ascent Dashboards</h2>
+		 <ul class="list-group">
+		  <li class="list-group-item"><a href="swagger-dash">Aggregated Swagger Dashboard URLs</a></li>
+		  <li class="list-group-item"><a href="turbine-dash">Aggregated Turbine Dashboard</a></li>
+		  <li class="list-group-item"><a href="hystrix-dash">Gateway Hystrix Dashboard</a></li>
+		  <li class="list-group-item"><a href="monitor-dash">Monitor Dashboard URLs</a></li>
+		 </ul>
+	  </div>
+	</div>
+</body>
+</html>

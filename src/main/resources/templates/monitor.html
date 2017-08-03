@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Monitoring</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+</head>
+<body>
+	<div class="container">
+	<h1>Monitoring Links</h1>
+	<div th:each="gatewayUrl: ${gatewayUrls}">
+		<table class="table">
+			<thead class="thead-inverse">
+				<tr>
+					<th>ID</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/autoconfig|}" th:text="autoconfig"></a></td>
+				<td>Displays an auto-configuration report showing all auto-configuration candidates and the reason why they were or were not applied.</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/beans|}" th:text="beans"></a></td>
+				<td>Displays a complete list of all the Spring Beans in your application.</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/configprops|}" th:text="configprops"></a></td>
+				<td>Displays a collated list of all @ConfigurationProperties.</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/dump|}" th:text="dump"></a></td>
+				<td>Performs a thread dump.</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/env|}" th:text="env"></a></td>
+				<td>Exposes properties from Spring's ConfigurableEnvironment.</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/health|}" th:text="health"></a></td>
+				<td>Shows application health information (defaulting to a simple OK message).</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/info|}" th:text="info"></a></td>
+				<td>Displays arbitrary application info.</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/metrics|}" th:text="metrics"></a></td>
+				<td>Shows metrics information for the current application.</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/mappings|}" th:text="mappings"></a></td>
+				<td>Displays a collated list of all @RequestMapping paths.</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/trace|}" th:text="trace"></a></td>
+				<td>Displays trace information (by default the last few HTTP requests).</td>
+			</tr>
+			<tr>
+				<td><a th:href="@{|${gatewayUrl}/loggers|}" th:text="loggers"></a></td>
+				<td>Shows and modifies the configuration of loggers in the application.</td>
+			</tr>
+		</table>
+		<div> &nbsp;</div>
+	</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+</head>
+<body>
+	<div class="jumbotron vertical-center"> 
+	  <div class="container container-table">
+	    <h2>Swagger Dashboard</h2>
+		<ul class="list-group">
+			<li th:each="swaggerApp : ${swaggerApps}" class="list-group-item">
+				<a th:href="${swaggerApp.url}" th:text="${swaggerApp.app}"></a>
+			</li>
+	   	 </ul>
+	  </div>
+	 </div>
+</body>
+</html>

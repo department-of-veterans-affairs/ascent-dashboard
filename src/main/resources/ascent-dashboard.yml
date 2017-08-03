@@ -1,0 +1,16 @@
+server:
+  port: ${dashboard.server.port:8763}
+info:  
+  build:
+    version:  "@project.version@"
+    artifact: "@project.artifactId@"
+    name: "@project.name@"
+    description: "@project.description@"
+#eureka:
+#  client:
+    #false by default in local dev mode
+#    enabled: false
+turbine:
+  appConfig: ascent-demo-service
+  clusterNameExpression: new String('default')
+
