@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 
 	<name>${project.artifactId}</name>
-	<description>Demo project for Spring Boot Misc. Dashboards</description>
+	<description>Ascent Project for Miscellaneous Dashboards</description>
 
 	<dependencies>
 		<!-- spring-boot dependencies -->
