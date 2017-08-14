@@ -66,6 +66,12 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         
+        <!-- ascent logging and audit configurations -->
+		<dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-platform-starter-logger</artifactId>
+		</dependency>
+        
          <!-- logstash logback encoder -->
 		<dependency>
 			<groupId>net.logstash.logback</groupId>
