@@ -1,12 +1,12 @@
 package gov.va.ascent.dashboard;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  */
 @Controller
 public class DashboardController {
-	
+
 	private final static Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
-	
+
+	private static final String REST_API = "REST-API";
+	private static final String APP_TYPE = "appType";
+	private static final String API = "api/";
+
 	@Autowired
     private DiscoveryClient discoveryClient;
 	
@@ -67,44 +71,46 @@ public class DashboardController {
     
     @RequestMapping("/swagger-dash")
     public String swagger(Model model) {
-    	ServiceInstance zuulInstance = getZuul();
-    	
-    	List<SwaggerApp> swaggerApps = new ArrayList<SwaggerApp>();
+    	final ServiceInstance zuulInstance = getZuul();
+
+    	final Map<String, String> swaggerApps = new TreeMap<>();
+
     	discoveryClient.getServices().forEach((String service) -> {
-			//use discovery service to build out a collection of our ServiceInstanceDetail objects
-			discoveryClient.getInstances(service).forEach((ServiceInstance serviceInstance) -> {
-				if("REST-API".equals(serviceInstance.getMetadata().get("appType"))){
-					SwaggerApp swaggerApp = new SwaggerApp();
-					swaggerApp.setApp(serviceInstance.getServiceId().toLowerCase());
-					swaggerApp.setUrl(
-							ServletUriComponentsBuilder.fromUri(zuulInstance.getUri())
-							.path("api/")
-							.path(serviceInstance.getServiceId().toLowerCase())
-							.path("/swagger-ui.html")
-							.build().toUriString());
-					swaggerApps.add(swaggerApp);
-				}
-			});
+
+			final ServiceInstance firstServiceInstance = getFirstServiceInstance(service);
+
+			if(firstServiceInstance != null
+					&& REST_API.equals(firstServiceInstance.getMetadata().get(APP_TYPE))){
+				swaggerApps.put(firstServiceInstance.getServiceId().toLowerCase(),
+						ServletUriComponentsBuilder.fromUri(zuulInstance.getUri())
+								.path(API)
+								.path(firstServiceInstance.getServiceId().toLowerCase())
+								.path("/swagger-ui.html")
+								.build().toUriString());
+			}
 		});
+
     	model.addAttribute("swaggerApps", swaggerApps);
         return "swagger";
     }
     
     @RequestMapping("/monitor-dash")
     public String monitor(Model model) {
-    	ServiceInstance zuulInstance = getZuul();
+    	final ServiceInstance zuulInstance = getZuul();
     	
-    	List<String> gatewayUrls = new ArrayList<String>();
+    	final Map<String, String> gatewayUrls = new TreeMap<>();
+
     	discoveryClient.getServices().forEach((String service) -> {
-			//use discovery service to build out a collection of our ServiceInstanceDetail objects
-			discoveryClient.getInstances(service).forEach((ServiceInstance serviceInstance) -> {
-				if("REST-API".equals(serviceInstance.getMetadata().get("appType"))){
-					gatewayUrls.add(ServletUriComponentsBuilder.fromUri(zuulInstance.getUri())
-						.path("api/")
-						.path(serviceInstance.getServiceId().toLowerCase())
+
+    		final ServiceInstance firstServiceInstance = getFirstServiceInstance(service);
+
+			if(firstServiceInstance != null
+					&& REST_API.equals(firstServiceInstance.getMetadata().get(APP_TYPE))) {
+				gatewayUrls.put(service, ServletUriComponentsBuilder.fromUri(zuulInstance.getUri())
+						.path(API)
+						.path(firstServiceInstance.getServiceId().toLowerCase())
 						.build().toUriString());
-				}
-			});
+			}
 		});
     	model.addAttribute("gatewayUrls", gatewayUrls);
         return "monitor";
@@ -130,22 +136,20 @@ public class DashboardController {
     	}
 		return dashInstance;
 	}
-    
-    class SwaggerApp {
-    	private String app;
-    	private String url;
-    	public String getApp() {
-			return app;
+
+	/**
+	 * Returns the first instance of the provided service name using the DiscoveryClient.
+	 *
+	 * @param service
+	 * @return the first ServiceInstance of a given service.
+	 */
+	private ServiceInstance getFirstServiceInstance(String service){
+
+		if(StringUtils.isBlank(service) || discoveryClient.getInstances(service).isEmpty()){
+			return null;
+		} else {
+			return discoveryClient.getInstances(service).get(0);
 		}
-		public void setApp(String app) {
-			this.app = app;
-		}
-		public String getUrl() {
-			return url;
-		}
-		public void setUrl(String url) {
-			this.url = url;
-		}
-    }
+	}
     
 }
