@@ -26,9 +26,9 @@ public class DashboardController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
 
-	private static final String REST_API = "REST-API";
-	private static final String APP_TYPE = "appType";
-	private static final String API = "api/";
+	private final static String REST_API = "REST-API";
+	private final static String APP_TYPE = "appType";
+	private final static String API = "api/";
 
 	@Autowired
     private DiscoveryClient discoveryClient;
