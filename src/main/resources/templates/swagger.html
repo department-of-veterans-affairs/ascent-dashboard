@@ -1,22 +1,65 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Swagger Dashboard</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen" />
-</head>
-<body>
-	<div class="jumbotron vertical-center"> 
-	  <div class="container container-table">
-	    <h2>Swagger Dashboard</h2>
-		<ul class="list-group">
-			<li th:each="swaggerApp : ${swaggerApps}" class="list-group-item">
-				<a th:href="${swaggerApp.value}" th:text="${swaggerApp.key}"></a>
-			</li>
-	   	 </ul>
-	  </div>
-	 </div>
-</body>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Ascent Platform - Dashboard - Swagger URLs</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-beta/css/bootstrap.min.css}" />
+
+		<!-- Custom styles for this template -->
+		<link href="/css/narrow-jumbotron.css" rel="stylesheet" />
+
+	</head>
+	<body>
+	<div class="container">
+		<div class="header clearfix">
+			<nav>
+				<ul class="nav nav-pills float-right">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="hystrix-dash" target="_blank">Hystrix</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="monitor-dash">Monitor</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="swagger-dash">Swagger <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="turbine-dash" target="_blank">Turbine</a>
+					</li>
+				</ul>
+			</nav>
+			<h3 class="text-muted">Ascent - Dashboard</h3>
+		</div>
+
+		<div class="jumbotron">
+			<h1 class="display-4"> Swagger URLs</h1>
+			<p class="lead">Use the links below to navigate to the Swagger page for a specific service.</p>
+		</div>
+
+		<div class="row marketing">
+			<div class="col-lg-12">
+				<ul class="list-group">
+					<li th:each="swaggerApp : ${swaggerApps}" class="list-group-item">
+						<a th:href="${swaggerApp.value}" th:text="${swaggerApp.key}"></a>
+					</li>
+				 </ul>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<p>Ascent Platform - Dashboard</p>
+		</footer>
+
+	</div>
+
+		<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+		<script src="/js/popper.min.js"></script>
+		<script th:src="@{/webjars/bootstrap/4.0.0-beta/js/bootstrap.min.js}"></script>
+	</body>
 </html>
