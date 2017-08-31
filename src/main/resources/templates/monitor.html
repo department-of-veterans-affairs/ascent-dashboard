@@ -10,8 +10,9 @@
 <body>
 	<div class="container">
 	<h1>Monitoring Links</h1>
-	<div th:each="gatewayUrl: ${gatewayUrls}">
+	<div th:each="gatewayUrl : ${gatewayUrls}">
 		<table class="table">
+			<h2 th:text="${gatewayUrl.key}"></h2>
 			<thead class="thead-inverse">
 				<tr>
 					<th>ID</th>
@@ -19,47 +20,47 @@
 				</tr>
 			</thead>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/autoconfig|}" th:text="autoconfig"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/autoconfig|}" th:text="autoconfig"></a></td>
 				<td>Displays an auto-configuration report showing all auto-configuration candidates and the reason why they were or were not applied.</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/beans|}" th:text="beans"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/beans|}" th:text="beans"></a></td>
 				<td>Displays a complete list of all the Spring Beans in your application.</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/configprops|}" th:text="configprops"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/configprops|}" th:text="configprops"></a></td>
 				<td>Displays a collated list of all @ConfigurationProperties.</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/dump|}" th:text="dump"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/dump|}" th:text="dump"></a></td>
 				<td>Performs a thread dump.</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/env|}" th:text="env"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/env|}" th:text="env"></a></td>
 				<td>Exposes properties from Spring's ConfigurableEnvironment.</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/health|}" th:text="health"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/health|}" th:text="health"></a></td>
 				<td>Shows application health information (defaulting to a simple OK message).</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/info|}" th:text="info"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/info|}" th:text="info"></a></td>
 				<td>Displays arbitrary application info.</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/metrics|}" th:text="metrics"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/metrics|}" th:text="metrics"></a></td>
 				<td>Shows metrics information for the current application.</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/mappings|}" th:text="mappings"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/mappings|}" th:text="mappings"></a></td>
 				<td>Displays a collated list of all @RequestMapping paths.</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/trace|}" th:text="trace"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/trace|}" th:text="trace"></a></td>
 				<td>Displays trace information (by default the last few HTTP requests).</td>
 			</tr>
 			<tr>
-				<td><a th:href="@{|${gatewayUrl}/loggers|}" th:text="loggers"></a></td>
+				<td><a th:href="@{|${gatewayUrl.value}/loggers|}" th:text="loggers"></a></td>
 				<td>Shows and modifies the configuration of loggers in the application.</td>
 			</tr>
 		</table>
