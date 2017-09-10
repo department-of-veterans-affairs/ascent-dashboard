@@ -10,6 +10,12 @@ info:
 #  client:
     #false by default in local dev mode
 #    enabled: false
+security:
+  basic:
+    enabled: true
+  user:
+      name: ${dashboard.username:dashboard}
+      password: ${dashboard.password:default}
 turbine:
   appConfig: ascent-demo-service
   clusterNameExpression: new String('default')

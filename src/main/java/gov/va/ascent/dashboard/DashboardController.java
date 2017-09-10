@@ -92,6 +92,7 @@ public class DashboardController {
 		});
 
     	model.addAttribute("swaggerApps", swaggerApps);
+    	model.addAttribute("currentPageTitle", "Swagger URLs");
         return "swagger";
     }
     
@@ -114,6 +115,7 @@ public class DashboardController {
 			}
 		});
     	model.addAttribute("gatewayUrls", gatewayUrls);
+		model.addAttribute("currentPageTitle", "Monitor URLs");
         return "monitor";
     }
     

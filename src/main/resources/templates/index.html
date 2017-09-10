@@ -1,41 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<title>Ascent Platform - Dashboard</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-beta/css/bootstrap.min.css}" />
 
-		<!-- Custom styles for this template -->
-		<link href="/css/narrow-jumbotron.css" rel="stylesheet" />
-	</head>
+
+	<head th:include="fragments/header :: head (${currentPageTitle})"></head>
+
+
 	<body>
 
 	<div class="container">
-		<div class="header clearfix">
-			<nav>
-				<ul class="nav nav-pills float-right">
-					<li class="nav-item">
-						<a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="hystrix-dash" target="_blank">Hystrix</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="monitor-dash">Monitor</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="swagger-dash">Swagger</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="turbine-dash" target="_blank">Turbine</a>
-					</li>
-				</ul>
-			</nav>
-			<h3 class="text-muted">Ascent - Dashboard</h3>
-		</div>
+
+		<div th:include="fragments/header :: menu(${currentPageTitle})" th:remove="tag"></div>
 
 		<div class="jumbotron">
 			<h1 class="display-4">Ascent - Dashboard</h1>
@@ -61,14 +36,12 @@
 			</div>
 		</div>
 
-		<footer class="footer">
-			<p>Ascent Platform - Dashboard</p>
-		</footer>
+		<div th:include="fragments/footer :: footer" th:remove="tag"></div>
 
 	</div>
 
-		<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
-		<script src="/js/popper.min.js"></script>
-		<script th:src="@{/webjars/bootstrap/4.0.0-beta/js/bootstrap.min.js}"></script>
+
+	<div th:include="fragments/footer :: scripts" th:remove="tag"></div>
+
 	</body>
 </html>

@@ -1,0 +1,44 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <body>
+
+        <head th:fragment="head (currentPageTitle)">
+
+            <title>Ascent Platform - Dashboard<th:block th:if="${currentPageTitle != null}" th:text="${' - ' + currentPageTitle}"></th:block></title>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-beta/css/bootstrap.min.css}" />
+
+            <!-- Custom styles for this template -->
+            <link href="/css/narrow-jumbotron.css" rel="stylesheet" />
+        </head>
+
+        <div th:fragment="menu (currentPage)" >
+            <div class="header clearfix">
+                <nav>
+                    <ul class="nav nav-pills float-right">
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${currentPage == null} ? active : ''" href="/">Home <span th:if="${currentPage == ''}" class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="hystrix-dash" target="_blank">Hystrix</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"  th:classappend="${currentPage == 'Monitor URLs'} ? active : ''" href="monitor-dash">Monitor <span th:if="${currentPage == 'monitor'}" class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${currentPage == 'Swagger URLs'} ? active : ''" href="swagger-dash">Swagger <span th:if="${currentPage == 'swagger'}" class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="turbine-dash" target="_blank">Turbine</a>
+                        </li>
+                    </ul>
+                </nav>
+                <h3 class="text-muted">Ascent - Dashboard</h3>
+            </div>
+        </div>
+    </body>
+</html>
