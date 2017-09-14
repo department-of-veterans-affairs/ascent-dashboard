@@ -25,11 +25,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Controller
 public class DashboardController {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
 
-	private final static String REST_API = "REST-API";
-	private final static String APP_TYPE = "appType";
-	private final static String API = "api/";
+	private static final String REST_API = "REST-API";
+	private static final String APP_TYPE = "appType";
+	private static final String API = "api/";
 
 	@Autowired
     private DiscoveryClient discoveryClient;
