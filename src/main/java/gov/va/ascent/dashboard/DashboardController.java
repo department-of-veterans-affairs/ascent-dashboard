@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
- * An <tt>Ascent Dashboard Controller</tt> to generate and serve the misc. dasboard URL requests
+ * An <tt>Ascent Dashboard Controller</tt> to generate and serve the misc. dashboard URL requests
  *
  */
 @Controller
