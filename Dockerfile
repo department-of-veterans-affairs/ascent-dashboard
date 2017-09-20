@@ -1,4 +1,4 @@
-FROM java:8
+FROM jluck/ascent-base
 
-ADD target/ascent-dashboard-*.jar /ascent-dashboard.jar
-ENTRYPOINT ["java", "-Xms32m", "-Xmx256m", "-jar", "/ascent-dashboard.jar"]
+ENV JAR_FILE "/ascent-dashboard.jar"
+ADD target/ascent-dashboard-*.jar $JAR_FILE
