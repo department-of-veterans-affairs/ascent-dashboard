@@ -1,7 +1,7 @@
 FROM ascent/ascent-base
 
 ENV JAR_FILE "/ascent-dashboard.jar"
-ADD target/ascent-dashboard-*.jar $JAR_FILE
+ADD target/ascent-dashboard.jar $JAR_FILE
 
 # Append app specific secrets to load to the base config
 RUN echo \
