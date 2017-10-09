@@ -6,17 +6,36 @@ info:
     artifact: "@project.artifactId@"
     name: "@project.name@"
     description: "@project.description@"
-#eureka:
-#  client:
-    #false by default in local dev mode
-#    enabled: false
 security:
   basic:
     enabled: true
   user:
-      name: ${dashboard.username:dashboard}
-      password: ${dashboard.password:default}
+      name: ${ascent.security.username:admin}
+      password: ${ascent.security.password:default}
+
 turbine:
   appConfig: ascent-demo-service
   clusterNameExpression: new String('default')
+ 
+spring:
+  boot:
+    admin:
+      auth:
+        username: ${ascent.security.username:admin}
+        password: ${ascent.security.password:default}
+      context-path: /manage
+      # tag::configuration-ui-hystrix[]
+      routes:
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+      # end::configuration-ui-hystrix[]
+      # tag::configuration-ui-turbine[]
+      turbine: 
+        clusters: new String('default')
+        location: ascent-demo-service  #<1>
+      # end::configuration-ui-turbine[]
+      
+
+zuul.sensitiveHeaders:
+
+  
 
