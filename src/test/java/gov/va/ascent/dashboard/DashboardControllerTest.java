@@ -1,24 +1,34 @@
 package gov.va.ascent.dashboard;
 
 
+import de.codecentric.boot.admin.web.client.ApplicationOperations;
+import de.codecentric.boot.admin.web.client.HttpHeadersProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -27,7 +37,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = DashboardController.class, secure = true)
+//@WebMvcTest(controllers = DashboardController.class, secure = true)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 public class DashboardControllerTest {
 
     @Autowired
@@ -39,7 +51,6 @@ public class DashboardControllerTest {
     final List<String> services = new ArrayList<>();
 
     final List<ServiceInstance> serviceInstancesPlatform = new ArrayList<>();
-
 
     @Before
     public void setUp(){
@@ -53,7 +64,7 @@ public class DashboardControllerTest {
         ServiceInstance gatewayMock = gateway;
 
         ServiceInstanceMockImpl dashboard = new ServiceInstanceMockImpl();
-        dashboard.serviceId = "ascent-dashbaord";
+        dashboard.serviceId = "ascent-dashboard";
         ServiceInstance dashboardMock = dashboard;
 
         serviceInstancesPlatform.add(gatewayMock);
@@ -122,100 +133,4 @@ public class DashboardControllerTest {
                 .andExpect(view().name("swagger"));
     }
 
-    @Test
-    @WithMockUser
-    public void shouldReturnMonitorDashboard() throws Exception {
-        //setup api service and service instance
-        services.add("dummy-service");
-
-        ServiceInstanceMockImpl restServiceMock = new ServiceInstanceMockImpl();
-        restServiceMock.metaData.put("appType", "REST-API");
-        restServiceMock.serviceId = "dummy-service";
-
-        final List<ServiceInstance> serviceInstancesDummyServices = new ArrayList<>();
-        serviceInstancesDummyServices.add(restServiceMock);
-
-        //setup expected response
-        final Map<String, String> gatewayUrls = new TreeMap<>();
-        gatewayUrls.put("dummy-service","http://localhost/api/dummy-service");
-
-        when(discoveryClient.getServices()).thenReturn(services);
-        when(discoveryClient.getInstances("dummy-service")).thenReturn(serviceInstancesDummyServices);
-        when(discoveryClient.getInstances("ascent-gateway")).thenReturn(serviceInstancesPlatform);
-
-        this.mockMvc.perform(
-                get("/monitor-dash"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("gatewayUrls"))
-                .andExpect(model().attribute("gatewayUrls", gatewayUrls))
-                .andExpect(view().name("monitor"));
-    }
-
-    @Test
-    @WithMockUser
-    public void shouldReturnMonitorDashboardNoLinks() throws Exception {
-        //setup expected response object
-        final Map<String, String> gatewayUrls = new TreeMap<>();
-
-        when(discoveryClient.getServices()).thenReturn(services);
-        List<ServiceInstance> emptyServiceInstances = new ArrayList<>();
-        when(discoveryClient.getInstances("dummy-service")).thenReturn(emptyServiceInstances);
-        when(discoveryClient.getInstances("ascent-gateway")).thenReturn(serviceInstancesPlatform);
-        this.mockMvc.perform(
-                get("/monitor-dash"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("gatewayUrls"))
-                .andExpect(model().attribute("gatewayUrls", gatewayUrls))
-                .andExpect(view().name("monitor"));
-    }
-
-    @Test
-    @WithMockUser
-    public void shouldReturnRedirectToHyStrixDashboard() throws  Exception {
-
-        when(discoveryClient.getInstances("ascent-gateway")).thenReturn(serviceInstancesPlatform);
-
-        this.mockMvc.perform(
-                get("/hystrix-dash"))
-                .andExpect(redirectedUrl("http://localhost/hystrix/monitor?stream="
-                        +"http://localhost/hystrix.stream&delay=5000"))
-                .andExpect(status().is3xxRedirection());
-    }
-
-    @Test
-    @WithMockUser
-    public void shouldReturnRedirectToHyStrixDashboardNoParams() throws  Exception {
-
-        serviceInstancesPlatform.clear();
-
-        this.mockMvc.perform(
-                get("/hystrix-dash"))
-                .andExpect(redirectedUrl("http://localhost/hystrix"))
-                .andExpect(status().is3xxRedirection());
-    }
-
-    @Test
-    @WithMockUser
-    public void shouldReturnRedirectToTurbineDashboard() throws  Exception {
-
-        when(discoveryClient.getInstances("ascent-dashboard")).thenReturn(serviceInstancesPlatform);
-
-        this.mockMvc.perform(
-                get("/turbine-dash"))
-                .andExpect(redirectedUrl("http://localhost/hystrix/monitor"
-                        +"?stream=http://localhost/turbine.stream"))
-                .andExpect(status().is3xxRedirection());
-    }
-
-    @Test
-    @WithMockUser
-    public void shouldReturnRedirectToTurbineDashboardNoParams() throws  Exception {
-
-        serviceInstancesPlatform.clear();
-
-        this.mockMvc.perform(
-                get("/turbine-dash"))
-                .andExpect(redirectedUrl("http://localhost/hystrix"))
-                .andExpect(status().is3xxRedirection());
-    }
 }

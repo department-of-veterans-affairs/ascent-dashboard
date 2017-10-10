@@ -38,37 +38,6 @@ public class DashboardController {
     public String index() {
         return "index";
     }
-	
-    @RequestMapping("/hystrix-dash")
-    public void hystrix(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    	ServiceInstance zuulInstance = getZuul();
-    	
-    	if(zuulInstance != null){
-        	response.sendRedirect(ServletUriComponentsBuilder.fromCurrentContextPath().path("/hystrix/monitor")
-        			.queryParam("stream", zuulInstance.getUri() + "/hystrix.stream")
-        			.queryParam("delay", "5000")
-        			.build().toUriString());
-    	} else {
-    		LOGGER.warn("zuul server not found in eureka discovery server, redirecting to hystrix dash for manual population!");
-    		response.sendRedirect(ServletUriComponentsBuilder.fromCurrentContextPath().path("/hystrix").build().toUriString());
-    	}
-    }
-    
-    @RequestMapping("/turbine-dash")
-    public void turbine(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    	ServiceInstance dashInstance = getDashboard();
-    	
-    	if(dashInstance != null){
-        	response.sendRedirect(ServletUriComponentsBuilder.fromCurrentContextPath().path("/hystrix/monitor")
-        			.queryParam("stream", dashInstance.getUri() + "/turbine.stream")
-        			.build().toUriString());
-    	} else {
-    		LOGGER.warn("dashboard app not found in eureka discovery server, redirecting to hystrix dash for manual population!");
-    		response.sendRedirect(ServletUriComponentsBuilder.fromCurrentContextPath().path("/hystrix").build().toUriString());
-    	}
-    }
     
     @RequestMapping("/swagger-dash")
     public String swagger(Model model) {
@@ -95,30 +64,6 @@ public class DashboardController {
     	model.addAttribute("currentPageTitle", "Swagger URLs");
         return "swagger";
     }
-    
-    @RequestMapping("/monitor-dash")
-    public String monitor(Model model) {
-    	final ServiceInstance zuulInstance = getZuul();
-    	
-    	final Map<String, String> gatewayUrls = new TreeMap<>();
-
-    	discoveryClient.getServices().forEach((String service) -> {
-
-    		final ServiceInstance firstServiceInstance = getFirstServiceInstance(service);
-
-			if(firstServiceInstance != null
-					&& REST_API.equals(firstServiceInstance.getMetadata().get(APP_TYPE))) {
-				gatewayUrls.put(service, ServletUriComponentsBuilder.fromUri(zuulInstance.getUri())
-						.path(API)
-						.path(firstServiceInstance.getServiceId().toLowerCase())
-						.build().toUriString());
-			}
-		});
-    	model.addAttribute("gatewayUrls", gatewayUrls);
-		model.addAttribute("currentPageTitle", "Monitor URLs");
-        return "monitor";
-    }
-    
 
 	private ServiceInstance getZuul() {
 		ServiceInstance zuulInstance = null;
