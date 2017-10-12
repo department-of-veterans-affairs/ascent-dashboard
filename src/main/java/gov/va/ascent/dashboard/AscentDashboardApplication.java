@@ -1,14 +1,6 @@
 package gov.va.ascent.dashboard;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import de.codecentric.boot.admin.config.EnableAdminServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -34,7 +26,13 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
-import de.codecentric.boot.admin.config.EnableAdminServer;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * An <tt>Ascent Dashboard Application</tt> enabled for Spring Boot Application, 
@@ -66,9 +64,10 @@ public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Autowired
-	  protected void configure(AuthenticationManagerBuilder auth) {
-	    addInMemoryAuthenticationProvider(auth);
-	  }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) {
+		addInMemoryAuthenticationProvider(auth);
+	}
 	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {

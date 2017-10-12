@@ -1,34 +1,25 @@
 package gov.va.ascent.dashboard;
 
 
-import de.codecentric.boot.admin.web.client.ApplicationOperations;
-import de.codecentric.boot.admin.web.client.HttpHeadersProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -37,10 +28,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringRunner.class)
-//@WebMvcTest(controllers = DashboardController.class, secure = true)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class DashboardControllerTest {
+
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -84,6 +76,40 @@ public class DashboardControllerTest {
         this.mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
+    }
+
+    @Test
+    @WithMockUser
+    public void kibanaTest() throws Exception {
+        this.mockMvc.perform(get("/kibana"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost:5601"));
+    }
+
+    @Test
+    @WithMockUser
+    public void zipkinRunningTest() throws Exception {
+        services.add("ascent-zipkin");
+
+        ServiceInstanceMockImpl zipkin = new ServiceInstanceMockImpl();
+        zipkin.serviceId = "ascent-zipkin";
+        ServiceInstance zipkinMock = zipkin;
+        serviceInstancesPlatform.add(zipkinMock);
+
+        when(discoveryClient.getServices()).thenReturn(services);
+        when(discoveryClient.getInstances("ascent-zipkin")).thenReturn(serviceInstancesPlatform);
+
+        this.mockMvc.perform(get("/zipkin"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost"));
+    }
+
+    @Test
+    @WithMockUser
+    public void zipkinNotRunningTest() throws Exception {
+
+        this.mockMvc.perform(get("/zipkin"))
+                .andExpect(status().is4xxClientError());
     }
 
     @Test

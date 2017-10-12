@@ -1,22 +1,21 @@
 package gov.va.ascent.dashboard;
 
-import java.io.IOException;
-
-import java.util.Map;
-import java.util.TreeMap;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import gov.va.ascent.dashboard.exception.ServiceNotFoundException;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * An <tt>Ascent Dashboard Controller</tt> to generate and serve the misc. dashboard URL requests
@@ -25,11 +24,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Controller
 public class DashboardController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
-
 	private static final String REST_API = "REST-API";
 	private static final String APP_TYPE = "appType";
 	private static final String API = "api/";
+
+	@Value("${kibana.url:http://localhost:5601}")
+	private String kibanaUrl;
 
 	@Autowired
     private DiscoveryClient discoveryClient;
@@ -38,10 +38,26 @@ public class DashboardController {
     public String index() {
         return "index";
     }
-    
+
+	@RequestMapping("/zipkin")
+	public void zipkin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		final ServiceInstance zipkinInstance = getServiceInstance("ascent-zipkin");
+		if(zipkinInstance == null){
+			throw new ServiceNotFoundException("Zipkin not found in discovery service. Is it running?");
+		} else {
+			response.sendRedirect(zipkinInstance.getUri().toURL().toString());
+		}
+	}
+
+	@RequestMapping("/kibana")
+	public void kibana(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		response.sendRedirect(kibanaUrl);
+	}
+
     @RequestMapping("/swagger-dash")
     public String swagger(Model model) {
-    	final ServiceInstance zuulInstance = getZuul();
+    	final ServiceInstance zuulInstance = getServiceInstance("ascent-gateway");
 
     	final Map<String, String> swaggerApps = new TreeMap<>();
 
@@ -65,24 +81,14 @@ public class DashboardController {
         return "swagger";
     }
 
-	private ServiceInstance getZuul() {
-		ServiceInstance zuulInstance = null;
-    	
-    	for(ServiceInstance serviceInstance: discoveryClient.getInstances("ascent-gateway")){
-    		zuulInstance = serviceInstance;
-    		break;
-    	}
-		return zuulInstance;
-	}
-	
-	private ServiceInstance getDashboard() {
-		ServiceInstance dashInstance = null;
-		
-    	for(ServiceInstance serviceInstance: discoveryClient.getInstances("ascent-dashboard")){
-    		dashInstance = serviceInstance;
-    		break;
-    	}
-		return dashInstance;
+	private ServiceInstance getServiceInstance(final String serviceName){
+		ServiceInstance desiredServiceInstance = null;
+
+		for(ServiceInstance serviceInstance: discoveryClient.getInstances(serviceName)){
+			desiredServiceInstance = serviceInstance;
+			break;
+		}
+		return desiredServiceInstance;
 	}
 
 	/**
