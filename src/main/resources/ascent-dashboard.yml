@@ -15,7 +15,7 @@ security:
 
 turbine:
   appConfig: ascent-demo-service
-  clusterNameExpression: new String('default')
+  clusterNameExpression: "'default'"
  
 spring:
   boot:
@@ -29,7 +29,7 @@ spring:
       # end::configuration-ui-hystrix[]
       # tag::configuration-ui-turbine[]
       turbine: 
-        clusters: new String('default')
+        clusters: "'default'"
         location: ascent-demo-service  #<1>
       # end::configuration-ui-turbine[]
       

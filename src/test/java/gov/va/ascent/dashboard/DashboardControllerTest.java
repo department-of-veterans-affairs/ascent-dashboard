@@ -88,28 +88,10 @@ public class DashboardControllerTest {
 
     @Test
     @WithMockUser
-    public void zipkinRunningTest() throws Exception {
-        services.add("ascent-zipkin");
-
-        ServiceInstanceMockImpl zipkin = new ServiceInstanceMockImpl();
-        zipkin.serviceId = "ascent-zipkin";
-        ServiceInstance zipkinMock = zipkin;
-        serviceInstancesPlatform.add(zipkinMock);
-
-        when(discoveryClient.getServices()).thenReturn(services);
-        when(discoveryClient.getInstances("ascent-zipkin")).thenReturn(serviceInstancesPlatform);
-
+    public void zipkinTest() throws Exception {
         this.mockMvc.perform(get("/zipkin"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost"));
-    }
-
-    @Test
-    @WithMockUser
-    public void zipkinNotRunningTest() throws Exception {
-
-        this.mockMvc.perform(get("/zipkin"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(redirectedUrl("http://localhost:8700"));
     }
 
     @Test

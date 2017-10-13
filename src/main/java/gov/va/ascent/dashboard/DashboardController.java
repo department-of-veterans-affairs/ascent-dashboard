@@ -1,6 +1,5 @@
 package gov.va.ascent.dashboard;
 
-import gov.va.ascent.dashboard.exception.ServiceNotFoundException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +30,9 @@ public class DashboardController {
 	@Value("${kibana.url:http://localhost:5601}")
 	private String kibanaUrl;
 
+	@Value("${zipkin.url:http://localhost:8700}")
+	private String zipkinUrl;
+
 	@Autowired
     private DiscoveryClient discoveryClient;
 	
@@ -41,12 +43,7 @@ public class DashboardController {
 
 	@RequestMapping("/zipkin")
 	public void zipkin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		final ServiceInstance zipkinInstance = getServiceInstance("ascent-zipkin");
-		if(zipkinInstance == null){
-			throw new ServiceNotFoundException("Zipkin not found in discovery service. Is it running?");
-		} else {
-			response.sendRedirect(zipkinInstance.getUri().toURL().toString());
-		}
+		response.sendRedirect(zipkinUrl);
 	}
 
 	@RequestMapping("/kibana")
