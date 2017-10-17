@@ -15,7 +15,8 @@ security:
 
 turbine:
   appConfig: ascent-demo-service
-  clusterNameExpression: new String('default')
+  instanceUrlSuffix: actuator/hystrix.stream
+#  clusterNameExpression: new String('default')
  
 spring:
   boot:
@@ -25,12 +26,12 @@ spring:
       context-path: /manage
       # tag::configuration-ui-hystrix[]
       routes:
-        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,heapdump,loggers,auditevents,hystrix.stream
       # end::configuration-ui-hystrix[]
       # tag::configuration-ui-turbine[]
       turbine: 
-        clusters: new String('default')
-        location: ascent-demo-service  #<1>
+#        clusters: new String('default')
+        location: ASCENT-DASHBOARD  #<1>
       # end::configuration-ui-turbine[]
       
 

@@ -57,12 +57,6 @@ public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 		SpringApplication.run(AscentDashboardApplication.class, args);
 	}
 	
-	@Bean
-	@ConfigurationProperties("spring.boot.admin.auth")
-	public BasicAuthFilter basicAuthFilter() {
-		return new BasicAuthFilter();
-	}
-	
 	@Autowired
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) {
@@ -75,9 +69,8 @@ public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 		http.httpBasic().and()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/api/applications").permitAll()//
-				.antMatchers(HttpMethod.GET, "/health").permitAll()//
-				.antMatchers(HttpMethod.GET, "/info").permitAll()//
-				.antMatchers("/manage/health").permitAll()//
+				.antMatchers(HttpMethod.GET, "/actuator/health").permitAll()//
+				.antMatchers(HttpMethod.GET, "/actuator/info").permitAll()//
 				.anyRequest().authenticated()//
 				.and().csrf().ignoringAntMatchers("/api/**", "/manage/**")
 				.csrfTokenRepository(csrfTokenRepository()).and()
