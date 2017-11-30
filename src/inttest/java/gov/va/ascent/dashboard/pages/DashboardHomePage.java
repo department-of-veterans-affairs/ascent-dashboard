@@ -7,14 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.va.ascent.selenium.common.BasePage;
-import gov.va.ascent.util.RESTConfig;
 
 
 
 
 	public class DashboardHomePage extends BasePage{
 		
-		final Logger log = LoggerFactory.getLogger(RESTConfig.class);
+		final Logger log = LoggerFactory.getLogger(DashboardHomePage.class);
 
 		 public DashboardHomePage(WebDriver selenium) {
 			 super(selenium);

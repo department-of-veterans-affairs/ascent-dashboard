@@ -1,7 +1,5 @@
 package gov.va.ascent.dashboard.steps;
 
-import java.net.URL;
-
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -18,13 +16,12 @@ import gov.va.ascent.dashboard.pages.DashboardHomePage;
 import gov.va.ascent.dashboard.pages.DashboardLoginPage;
 import gov.va.ascent.selenium.common.BasePage;
 import gov.va.ascent.util.BaseStepDef;
-import gov.va.ascent.util.RESTConfig;
 
 public class DashboardHomePageNav extends BaseStepDef {
 
 	DashboardHomePage homePage = null;
 	
-	final Logger log = LoggerFactory.getLogger(RESTConfig.class);
+	final Logger log = LoggerFactory.getLogger(DashboardHomePageNav.class);
 
 	@Before({ "@dashboardhomepagenav" })
 	public void setUpREST() {

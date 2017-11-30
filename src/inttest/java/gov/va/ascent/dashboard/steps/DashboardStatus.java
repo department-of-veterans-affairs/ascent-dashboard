@@ -12,11 +12,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gov.va.ascent.util.BaseStepDef;
-import gov.va.ascent.util.RESTConfig;
+
 
 public class DashboardStatus extends BaseStepDef {
 
-	final Logger log = LoggerFactory.getLogger(RESTConfig.class);
+	final Logger log = LoggerFactory.getLogger(DashboardStatus.class);
 
 	@Before({ "@dashboardstatus" })
 	public void setUpREST() {
@@ -30,7 +30,8 @@ public class DashboardStatus extends BaseStepDef {
 
 	@When("^user makes a request to dashboard URL$")
 	public void makerequesustoappsurlGet() throws Throwable {
-		invokeAPIUsingGet("", "dashboardURL");
+		String dashboardURL = restConfig.getPropertyName("dashboardURL");
+		invokeAPIUsingGet(dashboardURL, false);
 	}
 	@Then("^the response code must be for dashboard service (\\d+)$")
 	public void serviceresposestatuscodemustbe(int intStatusCode) throws Throwable {
