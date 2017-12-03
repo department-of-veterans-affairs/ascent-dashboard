@@ -50,7 +50,7 @@ public class DashboardController {
 
 	@RequestMapping("/kibana")
 	public void kibana(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (zipkinUrl != null) {
+		if (kibanaUrl != null) {
 			response.sendRedirect(kibanaUrl); 
 		}
 	}
