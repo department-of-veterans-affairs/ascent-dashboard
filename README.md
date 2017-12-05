@@ -10,6 +10,6 @@ This is a repository for the ascent dashboard service that provides a UI links t
 **Service Application Port**
 * Misc. Dashboard(s) - 8763
 
-See [Ascent-Dashboard](https://github.com/department-of-veterans-affairs/ascent-platform/wiki/Ascent-Dashboard) for additional details.
+See [Ascent-Dashboard](https://github.com/department-of-veterans-affairs/ascent-platform/wiki/PLATFORM-:-Ascent-Dashboard) for additional details.
 
-See [Ascent Quick Start Guide](https://github.com/department-of-veterans-affairs/ascent-platform/wiki/Ascent-Quick-Start-Guide) for the software prerequisites.
+See [Ascent Quick Start Guide](https://github.com/department-of-veterans-affairs/ascent-platform/wiki/DEV-:-Platform-Quick-Start-Guide) for the software prerequisites.
