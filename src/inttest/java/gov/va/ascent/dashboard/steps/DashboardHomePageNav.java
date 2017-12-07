@@ -14,8 +14,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gov.va.ascent.dashboard.pages.DashboardHomePage;
 import gov.va.ascent.dashboard.pages.DashboardLoginPage;
-import gov.va.ascent.selenium.common.BasePage;
-import gov.va.ascent.util.BaseStepDef;
+import gov.va.ascent.test.framework.restassured.BaseStepDef;
+import gov.va.ascent.test.framework.selenium.BasePage;
 
 public class DashboardHomePageNav extends BaseStepDef {
 

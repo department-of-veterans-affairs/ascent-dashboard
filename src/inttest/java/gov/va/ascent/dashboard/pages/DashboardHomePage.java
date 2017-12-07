@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gov.va.ascent.selenium.common.BasePage;
+import gov.va.ascent.test.framework.selenium.BasePage;
 
 
 
