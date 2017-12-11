@@ -36,7 +36,7 @@ public class DashboardStatus extends BaseStepDef {
 	}
 	@Then("^the response code must be for dashboard service (\\d+)$")
 	public void serviceresposestatuscodemustbe(int intStatusCode) throws Throwable {
-		ValidateStatusCode(intStatusCode);
+		validateStatusCode(intStatusCode);
 	}
 
 
