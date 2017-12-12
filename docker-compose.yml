@@ -22,7 +22,7 @@ services:
         - ascentnet
 
   ascent-dashboard:
-    image: ascent/ascent-
+    image: ascent/ascent-dashboard
     ports:
     - 8763
     environment:
