@@ -25,14 +25,10 @@ public class DashboardHomePageNav extends BaseStepDef {
 
 	@Before({ "@dashboardhomepagenav" })
 	public void setUpREST() {
-		//initREST();
 	}
 
 	@Given("^A user logins to dashboard homepage$")
 	public void passTheHeaderInformationForDashboard() throws Throwable {
-		//passHeaderInformation(tblHeader);
-		//URL url = DashboardHomePageNav.class.getClassLoader().getResource("IEDriverServer.exe");
-		//System.out.println("webdriver.chrome.driver=============="+ url.toString());
 		WebDriver selenium = BasePage.getDriver();
 		DashboardLoginPage loginPage = new DashboardLoginPage(selenium);
 		loginPage.enterCredentialsandLogin();
