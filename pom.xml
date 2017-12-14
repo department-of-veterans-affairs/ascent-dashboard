@@ -7,9 +7,9 @@
 		<groupId>gov.va.ascent</groupId>
 		<artifactId>ascent-platform-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath/>		
+		<relativePath />
 	</parent>
-	
+
 	<artifactId>ascent-dashboard</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -18,17 +18,17 @@
 	<description>Ascent Project for Miscellaneous Dashboards</description>
 
 	<dependencies>
-	    <dependency>
-	        <groupId>de.codecentric</groupId>
-	        <artifactId>spring-boot-admin-server</artifactId>
-	        <version>1.5.4</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>de.codecentric</groupId>
-	        <artifactId>spring-boot-admin-server-ui</artifactId>
-	        <version>1.5.4</version>
-	    </dependency>
-	    <!-- tag::dependency-ui-hystrix[] -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-server</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-server-ui</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<!-- tag::dependency-ui-hystrix[] -->
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
@@ -47,38 +47,38 @@
 			<artifactId>jolokia-core</artifactId>
 		</dependency>
 		<!-- spring-boot dependencies -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-		
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-        </dependency>
-		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+		</dependency>
+
 		<!-- spring cloud dependencies -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-        <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-turbine</artifactId>
 		</dependency>
@@ -91,39 +91,39 @@
 			<artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        
-        <!-- ascent logging and audit configurations -->
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!-- ascent logging and audit configurations -->
 		<dependency>
 			<groupId>gov.va.ascent</groupId>
 			<artifactId>ascent-platform-starter-logger</artifactId>
 		</dependency>
-        
-         <!-- logstash logback encoder -->
+
+		<!-- logstash logback encoder -->
 		<dependency>
 			<groupId>net.logstash.logback</groupId>
 			<artifactId>logstash-logback-encoder</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<!--WebJars-->
+
+		<!--WebJars -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
@@ -140,7 +140,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Ascent Test Framework -->
 		<dependency>
 			<groupId>gov.va.ascent</groupId>
@@ -150,9 +150,22 @@
 		</dependency>
 
 	</dependencies>
-	 <build>
+	<build>
 		<plugins>
-		<plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/inttest/resources/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					<parallel>classes</parallel>
+					<forkCount>10</forkCount>
+					<reuseForks>false</reuseForks>
+					<threadCount>10</threadCount>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>net.masterthought</groupId>
 				<artifactId>maven-cucumber-reporting</artifactId>
 				<version>2.8.0</version>
@@ -176,8 +189,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			</plugins>
+		</plugins>
 	</build>
-			
+
 
 </project>
