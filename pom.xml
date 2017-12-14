@@ -149,6 +149,18 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>			
+	</dependencies>	
+	
+	<!-- For Integration Tests to be executed you need this plugin
+		All the configurations will be inherited fron Ascent Libaries Parent POM -->
+	<build>
+		<plugins>
+	        <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</build>		
 
 </project>
