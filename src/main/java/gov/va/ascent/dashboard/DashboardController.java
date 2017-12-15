@@ -51,7 +51,9 @@ public class DashboardController {
 	private GatewayRoutesClient gatewayRoutesClient;
 	
 	@RequestMapping("/")
-    public String index() {
+    public String index(Model model) {
+		model.addAttribute("zipkinUrl", zipkinUrl);
+    	model.addAttribute("kibanaUrl", kibanaUrl);
         return "index";
     }
 
@@ -95,6 +97,8 @@ public class DashboardController {
 
     	model.addAttribute("swaggerApps", swaggerApps);
     	model.addAttribute("currentPageTitle", "Swagger URLs");
+    	model.addAttribute("zipkinUrl", zipkinUrl);
+    	model.addAttribute("kibanaUrl", kibanaUrl);
         return "swagger";
     }
 
