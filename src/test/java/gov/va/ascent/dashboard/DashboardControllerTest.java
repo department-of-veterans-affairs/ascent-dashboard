@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,6 +40,9 @@ public class DashboardControllerTest {
 
     @MockBean
     private DiscoveryClient discoveryClient;
+
+    @MockBean
+    private GatewayRoutesClient gatewayRoutesClient;
 
     final List<String> services = new ArrayList<>();
 
@@ -80,22 +84,6 @@ public class DashboardControllerTest {
 
     @Test
     @WithMockUser
-    public void kibanaTest() throws Exception {
-        this.mockMvc.perform(get("/kibana"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost:5601"));
-    }
-
-    @Test
-    @WithMockUser
-    public void zipkinTest() throws Exception {
-        this.mockMvc.perform(get("/zipkin"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost:8700"));
-    }
-
-    @Test
-    @WithMockUser
     public void shouldReturnSwaggerDashboard() throws Exception {
         //setup api service and service instance
         services.add("dummy-service");
@@ -108,12 +96,57 @@ public class DashboardControllerTest {
         serviceInstancesDummyServices.add(restServiceMock);
 
         //setup expected response
-        final Map<String, String> swaggerApps = new TreeMap<>();
-        swaggerApps.put("dummy-service","http://localhost/api/dummy-service/swagger-ui.html");
+        final Map<String, List<String>> swaggerApps = new TreeMap<>();
+        List<String> urls = new ArrayList<>();
+        urls.add("http://localhost:8762/api/dummy-service/swagger-ui.html");
+        swaggerApps.put("dummy-service",urls);
+
+        Map<String, String> routes = new HashMap<>();
+        routes.put("/api/dummy-service/**", "dummy-service");
+
 
         when(discoveryClient.getServices()).thenReturn(services);
         when(discoveryClient.getInstances("dummy-service")).thenReturn(serviceInstancesDummyServices);
         when(discoveryClient.getInstances("ascent-gateway")).thenReturn(serviceInstancesPlatform);
+        when(gatewayRoutesClient.getRoutes()).thenReturn(routes);
+
+        this.mockMvc.perform(
+                get("/swagger-dash"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("swaggerApps"))
+                .andExpect(model().attribute("swaggerApps", swaggerApps))
+                .andExpect(view().name("swagger"));
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldReturnSwaggerDashboardMultipleRoutesPerApp() throws Exception {
+        //setup api service and service instance
+        services.add("dummy-service");
+
+        ServiceInstanceMockImpl restServiceMock = new ServiceInstanceMockImpl();
+        restServiceMock.metaData.put("appType", "REST-API");
+        restServiceMock.serviceId = "dummy-service";
+
+        final List<ServiceInstance> serviceInstancesDummyServices = new ArrayList<>();
+        serviceInstancesDummyServices.add(restServiceMock);
+
+        //setup expected response
+        final Map<String, List<String>> swaggerApps = new TreeMap<>();
+        List<String> urls = new ArrayList<>();
+        urls.add("http://localhost:8762/api/dummy-service/swagger-ui.html");
+        urls.add("http://localhost:8762/api/service/swagger-ui.html");
+        swaggerApps.put("dummy-service",urls);
+
+        Map<String, String> routes = new HashMap<>();
+        routes.put("/api/dummy-service/**", "dummy-service");
+        routes.put("/api/service/**", "dummy-service");
+
+
+        when(discoveryClient.getServices()).thenReturn(services);
+        when(discoveryClient.getInstances("dummy-service")).thenReturn(serviceInstancesDummyServices);
+        when(discoveryClient.getInstances("ascent-gateway")).thenReturn(serviceInstancesPlatform);
+        when(gatewayRoutesClient.getRoutes()).thenReturn(routes);
 
         this.mockMvc.perform(
                 get("/swagger-dash"))
@@ -127,7 +160,7 @@ public class DashboardControllerTest {
     @WithMockUser
     public void shouldReturnSwaggerDashboardNoLinks() throws Exception {
         //setup expected response object
-        final Map<String, String> swaggerApps = new TreeMap<>();
+        final Map<String, List<String>> swaggerApps = new TreeMap<>();
 
         when(discoveryClient.getServices()).thenReturn(services);
         List<ServiceInstance> emptyServiceInstances = new ArrayList<>();

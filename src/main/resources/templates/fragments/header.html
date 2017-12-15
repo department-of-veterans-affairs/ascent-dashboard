@@ -24,16 +24,16 @@
                             <a class="nav-link" th:classappend="${currentPage == null} ? active : ''" href="/">Home <span th:if="${currentPage == ''}" class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/manage" target="_blank">Spring Boot Admin (SBA)</a>
+                            <a class="nav-link" href="/manage/#/" target="_blank">Spring Boot Admin (SBA)</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:classappend="${currentPage == 'Swagger URLs'} ? active : ''" href="swagger-dash">Swagger <span th:if="${currentPage == 'swagger'}" class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/zipkin" target="_blank">Zipkin</a>
+                            <a class="nav-link" th:href="${zipkinUrl}" target="_blank">Zipkin</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/kibana" target="_blank">Kibana</a>
+                            <a class="nav-link" th:href="${kibanaUrl}" target="_blank">Kibana</a>
                         </li>
                     </ul>
                 </nav>
