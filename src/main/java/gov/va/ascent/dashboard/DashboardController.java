@@ -1,18 +1,24 @@
 package gov.va.ascent.dashboard;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -21,20 +27,28 @@ import java.util.TreeMap;
  *
  */
 @Controller
+@RefreshScope
 public class DashboardController {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
 
 	private static final String REST_API = "REST-API";
 	private static final String APP_TYPE = "appType";
-	private static final String API = "api/";
 
 	@Value("${kibana.url:http://localhost:5601}")
 	private String kibanaUrl;
 
-	@Value("${zipkin.url:http://localhost:8700}")
+	@Value("${zipkin.url:http://localhost:8700/zipkin/}")
 	private String zipkinUrl;
+
+	@Value("${gateway.url:http://localhost:8762}")
+    private String gatewayUrl;
 
 	@Autowired
     private DiscoveryClient discoveryClient;
+
+	@Autowired
+	private GatewayRoutesClient gatewayRoutesClient;
 	
 	@RequestMapping("/")
     public String index() {
@@ -44,7 +58,7 @@ public class DashboardController {
 	@RequestMapping("/zipkin")
 	public void zipkin(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (zipkinUrl != null) {
-			response.sendRedirect(zipkinUrl); 
+			response.sendRedirect(zipkinUrl);
 		}
 	}
 
@@ -57,22 +71,25 @@ public class DashboardController {
 
     @RequestMapping("/swagger-dash")
     public String swagger(Model model) {
-    	final ServiceInstance zuulInstance = getServiceInstance("ascent-gateway");
 
-    	final Map<String, String> swaggerApps = new TreeMap<>();
-
+    	final Map<String, List<String>> swaggerApps = new TreeMap<>();
+		final Map<String, String> routes = getRoutes();
+		LOGGER.error(Arrays.toString(routes.entrySet().toArray()));
     	discoveryClient.getServices().forEach((String service) -> {
 
 			final ServiceInstance firstServiceInstance = getFirstServiceInstance(service);
 
 			if(firstServiceInstance != null
 					&& REST_API.equals(firstServiceInstance.getMetadata().get(APP_TYPE))){
-				swaggerApps.put(firstServiceInstance.getServiceId().toLowerCase(),
-						ServletUriComponentsBuilder.fromUri(zuulInstance.getUri())
-								.path(API)
-								.path(firstServiceInstance.getServiceId().toLowerCase())
-								.path("/swagger-ui.html")
-								.build().toUriString());
+			    routes.forEach((route, serviceId) -> {
+			        if(StringUtils.equalsIgnoreCase(serviceId,firstServiceInstance.getServiceId())) {
+                        if(swaggerApps.get(firstServiceInstance.getServiceId().toLowerCase()) == null){
+                            swaggerApps.put(firstServiceInstance.getServiceId().toLowerCase(), new ArrayList<>());
+                        }
+                        swaggerApps.get(firstServiceInstance.getServiceId().toLowerCase())
+                                .add(gatewayUrl + route + "swagger-ui.html");
+                    }
+                });
 			}
 		});
 
@@ -80,16 +97,6 @@ public class DashboardController {
     	model.addAttribute("currentPageTitle", "Swagger URLs");
         return "swagger";
     }
-
-	private ServiceInstance getServiceInstance(final String serviceName){
-		ServiceInstance desiredServiceInstance = null;
-
-		for(ServiceInstance serviceInstance: discoveryClient.getInstances(serviceName)){
-			desiredServiceInstance = serviceInstance;
-			break;
-		}
-		return desiredServiceInstance;
-	}
 
 	/**
 	 * Returns the first instance of the provided service name using the DiscoveryClient.
@@ -105,5 +112,20 @@ public class DashboardController {
 			return discoveryClient.getInstances(service).get(0);
 		}
 	}
+
+    /**
+     * Returns the routes available on Ascent Gateway
+     *
+     * @return map of the routes to service Id
+     */
+	private Map<String, String> getRoutes(){
+	    final Map<String, String> uneditedRoutes = gatewayRoutesClient.getRoutes();
+	    final Map<String, String> routes = new HashMap<>();
+		uneditedRoutes.forEach((route, service) -> {
+            final String routeWithoutAsterisk = route.replace("*", "");
+            routes.put(routeWithoutAsterisk, service);
+        });
+	    return routes;
+    }
     
 }

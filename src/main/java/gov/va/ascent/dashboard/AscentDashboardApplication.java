@@ -1,6 +1,7 @@
 package gov.va.ascent.dashboard;
 
 import de.codecentric.boot.admin.config.EnableAdminServer;
+import feign.auth.BasicAuthRequestInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -9,8 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
@@ -45,6 +48,7 @@ import java.io.IOException;
 @SpringBootApplication
 @EnableHystrix
 @EnableHystrixDashboard
+@EnableFeignClients
 @Import(TurbineConfiguration.class)
 public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 	
