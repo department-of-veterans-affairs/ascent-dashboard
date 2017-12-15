@@ -84,22 +84,6 @@ public class DashboardControllerTest {
 
     @Test
     @WithMockUser
-    public void kibanaTest() throws Exception {
-        this.mockMvc.perform(get("/kibana"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost:5601"));
-    }
-
-    @Test
-    @WithMockUser
-    public void zipkinTest() throws Exception {
-        this.mockMvc.perform(get("/zipkin"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost:8700/zipkin/"));
-    }
-
-    @Test
-    @WithMockUser
     public void shouldReturnSwaggerDashboard() throws Exception {
         //setup api service and service instance
         services.add("dummy-service");
