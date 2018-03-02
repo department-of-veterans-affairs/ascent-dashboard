@@ -19,9 +19,9 @@ src/inttest/java/gov/va/ascent/dashboard/runner - Cucumber runner class that con
 
 src/inttest/resources/logback-test.xml - Logback Console Appender pattern and loggers defined for this project
 
-src/inttest/resources/config/vetsapi-ci.properties – CI configuration properties such as URL are specified here.
+src/inttest/resources/config/vetservices-ci.properties – CI configuration properties such as URL are specified here.
 
-src/inttest/resources/config/vetsapi-stage.properties – STAGE configuration properties such as URL are specified here.
+src/inttest/resources/config/vetservices-stage.properties – STAGE configuration properties such as URL are specified here.
 
 ## Execution ##
 **Command Line:** Use this command(s) to execute the dashboard acceptance test. 
@@ -40,12 +40,12 @@ mvn clean verify -Pinttest -Dbrowser=CHROME -DwebdriverPath=”Path of the chrom
 
 Use below sample commands to execute for different environment:
 
-CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=ci -DX-Vault-Token=<> -DbaseURL=https://ci.internal.vets-api.gov:8761
+CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=ci -DX-Vault-Token=<> -DbaseURL=https://ci.internal.vets-api.gov:8763
 
-CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<>  -DbaseURL=https://ci.internal.vets-api.gov:8761 -Dvault.url=https://vault.internal.vets-api.gov:8200/v1/secret/ascent-discovery
+CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<>  -DbaseURL=https://ci.internal.vets-api.gov:8763 -Dvault.url=https://vault.internal.vets-api.gov:8200/v1/secret/application
 
-STAGE : mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=ci -DX-Vault-Token=<>  -DbaseURL=https://stage.internal.vets-api.gov:8761
+STAGE : mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=ci -DX-Vault-Token=<>  -DbaseURL=https://stage.internal.vets-api.gov:8763
 
-STAGE: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<>  -DbaseURL=https://stage.internal.vets-api.gov:8761 -Dvault.url=https://vault.internal.vets-api.gov:8200/v1/secret/ascent-discovery
+STAGE: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<>  -DbaseURL=https://stage.internal.vets-api.gov:8763 -Dvault.url=https://vault.internal.vets-api.gov:8200/v1/secret/application
 
 The parameter X-Vault-Token is not valid for local environment. It is passed thru pipeline. 
