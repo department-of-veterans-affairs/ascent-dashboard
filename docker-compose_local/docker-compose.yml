@@ -3,7 +3,7 @@ services:
   ascent-dashboard:
     image: ascent/ascent-dashboard
     build: 
-      context: ../
+      context: ../../ascent-dashboard
     ports:
      - "8763:8763"
     environment:
