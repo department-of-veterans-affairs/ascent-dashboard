@@ -42,10 +42,10 @@ Use below sample commands to execute for different environment:
 
 CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=ci -DX-Vault-Token=<> -DbaseURL=https://ci.internal.vets-api.gov:8763
 
-CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<>  -DbaseURL=https://ci.internal.vets-api.gov:8763 -Dvault.url=https://vault.internal.vets-api.gov:8200/v1/secret/application
+CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<> -Dtest.env=ci -DbaseURL=https://ci.internal.vets-api.gov:8763 -Dvault.url.domain=https://vault.internal.vets-api.gov:8200
 
-STAGE : mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=ci -DX-Vault-Token=<>  -DbaseURL=https://stage.internal.vets-api.gov:8763
+STAGE : mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=stage -DX-Vault-Token=<>  -DbaseURL=https://stage.internal.vets-api.gov:8763
 
-STAGE: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<>  -DbaseURL=https://stage.internal.vets-api.gov:8763 -Dvault.url=https://vault.internal.vets-api.gov:8200/v1/secret/application
+STAGE: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<> -Dtest.env=stage -DbaseURL=https://stage.internal.vets-api.gov:8763 -Dvault.url.domain=https://vault.internal.vets-api.gov:8200
 
 The parameter X-Vault-Token is not valid for local environment. It is passed thru pipeline. 
