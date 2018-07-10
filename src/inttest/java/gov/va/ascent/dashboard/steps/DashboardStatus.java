@@ -11,7 +11,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import gov.va.ascent.dashboard.util.AppUtil;
+import gov.va.ascent.dashboard.util.DashboardAppUtil;
 import gov.va.ascent.test.framework.restassured.BaseStepDef;
 
 
@@ -31,7 +31,7 @@ public class DashboardStatus extends BaseStepDef {
 
 	@When("^user makes a request to dashboard URL$")
 	public void makerequesustoappsurlGet() throws Throwable {
-		invokeAPIUsingGet(AppUtil.getBaseURL(), false);
+		invokeAPIUsingGet(DashboardAppUtil.getBaseURL(), false);
 	}
 	@Then("^the response code must be for dashboard service (\\d+)$")
 	public void serviceresposestatuscodemustbe(int intStatusCode) throws Throwable {
