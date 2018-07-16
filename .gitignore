@@ -28,3 +28,6 @@ nbdist/
 
 ### Log ###
 *.log
+
+## Fortify ##
+/local-only.fpr
