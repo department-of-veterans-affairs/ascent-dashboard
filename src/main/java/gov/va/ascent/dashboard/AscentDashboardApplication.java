@@ -36,7 +36,7 @@ import org.springframework.web.util.WebUtils;
 import de.codecentric.boot.admin.config.EnableAdminServer;
 
 /**
- * An <tt>Ascent Dashboard Application</tt> enabled for Spring Boot Application, 
+ * An <tt>Ascent Dashboard Application</tt> enabled for Spring Boot Application,
  * Spring Cloud Netflix Hystrix circuit breakers, Hystrix Dashboard and Turbine.
  *
  */
@@ -51,23 +51,23 @@ import de.codecentric.boot.admin.config.EnableAdminServer;
 @EnableFeignClients
 @Import(TurbineConfiguration.class)
 public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-    private SecurityProperties securityProperties;
 
-	public static void main(String[] args) {
+	@Autowired
+	private SecurityProperties securityProperties;
+
+	public static void main(final String[] args) {
 		SpringApplication.run(AscentDashboardApplication.class, args);
 	}
-	
+
 	@Autowired
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) {
+	protected void configure(final AuthenticationManagerBuilder auth) {
 		addInMemoryAuthenticationProvider(auth);
 	}
-	
+
 	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		
+	public void configure(final HttpSecurity http) throws Exception {
+
 		http.httpBasic().and()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/api/applications").permitAll()//
@@ -78,33 +78,34 @@ public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 				.csrfTokenRepository(csrfTokenRepository()).and()
 				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 	}
-	
-	private void addInMemoryAuthenticationProvider(AuthenticationManagerBuilder auth) {
-	    try {
-	      auth.inMemoryAuthentication()
-	          .withUser(securityProperties.getUser().getName())
-	          .password(securityProperties.getUser().getPassword())
-	          .roles(securityProperties.getUser().getRole().stream().toArray(String[]::new));
-	    } catch (Exception ex) {
-	      throw new IllegalStateException("Cannot add InMemory users!", ex);
-	    }
-	  }
-	
-	private Filter csrfHeaderFilter() {
-		return new RestOncePerRequestFilter() ;
+
+	private void addInMemoryAuthenticationProvider(final AuthenticationManagerBuilder auth) {
+		try {
+			auth.inMemoryAuthentication()
+					.withUser(securityProperties.getUser().getName())
+					.password(securityProperties.getUser().getPassword())
+					.roles(securityProperties.getUser().getRole().stream().toArray(String[]::new));
+		} catch (final Exception ex) {
+			throw new IllegalStateException("Cannot add InMemory users!", ex);
+		}
 	}
-	
+
+	private Filter csrfHeaderFilter() {
+		return new RestOncePerRequestFilter();
+	}
+
 	private class RestOncePerRequestFilter extends OncePerRequestFilter {
 		@Override
-		protected void doFilterInternal(HttpServletRequest request,
-				HttpServletResponse response, FilterChain filterChain)
-						throws ServletException, IOException {
-			CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+		protected void doFilterInternal(final HttpServletRequest request,
+				final HttpServletResponse response, final FilterChain filterChain)
+				throws ServletException, IOException {
+			final CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
 			if (csrf != null) {
 				Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
-				String token = csrf.getToken();
+				final String token = csrf.getToken();
 				if (cookie == null || token != null && !token.equals(cookie.getValue())) {
 					cookie = new Cookie("XSRF-TOKEN", token);
+					cookie.setHttpOnly(true);
 					cookie.setPath("/");
 					response.addCookie(cookie);
 				}
@@ -112,13 +113,11 @@ public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 			filterChain.doFilter(request, response);
 		}
 	}
-	
-
 
 	private CsrfTokenRepository csrfTokenRepository() {
-		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+		final HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
 		repository.setHeaderName("X-XSRF-TOKEN");
 		return repository;
 	}
-	
+
 }
