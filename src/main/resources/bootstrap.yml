@@ -64,6 +64,7 @@ eureka:
   instance:
     nonSecurePortEnabled: false
     securePortEnabled: true
+    securePort: 8763
     hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
     preferIpAddress: false
     
