@@ -34,7 +34,10 @@ spring:
         location: ASCENT-DASHBOARD  #<1>
       # end::configuration-ui-turbine[]
       
-
+feign:
+  httpclient:
+    enabled: true
+    
 zuul.sensitiveHeaders:
 
 ---
