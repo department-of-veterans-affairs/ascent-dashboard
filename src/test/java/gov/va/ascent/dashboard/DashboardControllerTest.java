@@ -38,7 +38,7 @@ public class DashboardControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockBean(name="simpleDiscoveryClient")
     private DiscoveryClient discoveryClient;
 
     @MockBean

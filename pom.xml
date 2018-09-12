@@ -21,11 +21,12 @@
 
 	<properties>
 		<!-- 3rd party versions -->
-		<spring-boot-admin-server.version>1.5.4</spring-boot-admin-server.version>
-		<spring-boot-admin-server-ui.version>1.5.4</spring-boot-admin-server-ui.version>
-		<spring-boot-admin-server-ui-hystrix.version>1.5.4</spring-boot-admin-server-ui-hystrix.version>
-		<spring-boot-admin-server-ui-turbine.version>1.5.4</spring-boot-admin-server-ui-turbine.version>
+		<spring-boot-admin-server.version>1.5.7</spring-boot-admin-server.version>
+		<spring-boot-admin-server-ui.version>1.5.7</spring-boot-admin-server-ui.version>
+		<spring-boot-admin-server-ui-hystrix.version>1.5.7</spring-boot-admin-server-ui-hystrix.version>
+		<spring-boot-admin-server-ui-turbine.version>1.5.7</spring-boot-admin-server-ui-turbine.version>
 		<bootstrap.version>4.0.0-beta</bootstrap.version>
+		<spring-cloud-dependencies.version>Edgware.SR3</spring-cloud-dependencies.version>
 	</properties>
 
 	<dependencies>

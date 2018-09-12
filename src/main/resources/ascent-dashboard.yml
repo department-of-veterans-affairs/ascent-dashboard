@@ -34,8 +34,26 @@ spring:
         location: ASCENT-DASHBOARD  #<1>
       # end::configuration-ui-turbine[]
       
-
+feign:
+  httpclient:
+    enabled: true
+    
 zuul.sensitiveHeaders:
+
+---
+spring:
+  profiles: docker-demo,aws-ci,aws-stage,aws-prod
+server:
+  ssl:
+    enabled: true
+    ######### These properties are set by the run-wrapper.sh script in the ascent-base container #########
+    # key-alias: @project.name@
+    # key-store: /app/certs/server.jks
+    # key-store-password: 
+    # trust-store: /app/certs/server-truststore.jks
+    # trust-store-password:
+    ######################################################################################################
+    client-auth: need
 
   
 
