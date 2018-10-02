@@ -23,6 +23,7 @@ microservicePipeline {
     /*********  Deployment Configuration ***********/
     stackName = "dashboard"
     serviceName = "ascent-dashboard"
+    isPlatform = true
 
     //Default Deployment Configuration Values
     //composeFiles = ["docker-compose.yml"]
