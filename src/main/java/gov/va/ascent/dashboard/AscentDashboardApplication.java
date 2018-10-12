@@ -23,6 +23,7 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
+import org.springframework.metrics.export.prometheus.EnablePrometheusMetrics;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -49,6 +50,7 @@ import de.codecentric.boot.admin.config.EnableAdminServer;
 @EnableHystrix
 @EnableHystrixDashboard
 @EnableFeignClients
+@EnablePrometheusMetrics
 @Import(TurbineConfiguration.class)
 public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 

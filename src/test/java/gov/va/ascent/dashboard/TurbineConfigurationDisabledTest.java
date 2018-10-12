@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,properties = {"turbine.enabled=false"})
 @AutoConfigureMockMvc
-public class TurbineConfigurationDisabledTest {
+public class TurbineConfigurationDisabledTest extends BaseTest {
 
     @Autowired
     ApplicationContext applicationContext;

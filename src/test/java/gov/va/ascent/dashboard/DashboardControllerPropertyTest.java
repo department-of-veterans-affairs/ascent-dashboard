@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { "kibana.url=#{null}", "zipkin.url=#{null}" })
 @AutoConfigureMockMvc
-public class DashboardControllerPropertyTest {
+public class DashboardControllerPropertyTest extends BaseTest {
 
     @Autowired
     private MockMvc mockMvc;

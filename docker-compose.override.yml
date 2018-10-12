@@ -11,6 +11,8 @@ services:
       #- JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
     #ports:
     #  - 8000:8000
+    logging:
+       driver: json-file
     depends_on:
       - ascent-config
       - vault
