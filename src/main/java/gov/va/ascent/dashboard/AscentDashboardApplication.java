@@ -74,6 +74,7 @@ public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/api/applications").permitAll()//
 				.antMatchers(HttpMethod.GET, "/actuator/health").permitAll()//
+				.antMatchers(HttpMethod.HEAD, "/actuator/health").permitAll()//
 				.antMatchers(HttpMethod.GET, "/actuator/info").permitAll()//
 				.anyRequest().authenticated()//
 				.and().csrf().ignoringAntMatchers("/api/**", "/manage/**")
