@@ -1,6 +1,5 @@
 version: '3.3'
 services:
-  
   ascent-dashboard:
     image: ascent/ascent-dashboard:${RELEASE_VERSION:-latest}
     environment:
@@ -19,10 +18,20 @@ services:
       placement:
         constraints:
           - node.role == worker
+      update_config:
+        parallelism: 1
+        delay: 60s
+        monitor: 60s
+        failure_action: pause
     networks:
         - ascentnet
     ports:
         - "${PORT:-8763:8763}"
+    healthcheck:
+        test: ["CMD", "/healthcheck", "--url", "https://localhost:8763/actuator/health"]
+        interval: 1m
+        timeout: 10s
+        retries: 3
 
 networks:
   ascentnet:
