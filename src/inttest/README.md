@@ -19,7 +19,7 @@ src/inttest/java/gov/va/ascent/dashboard/runner - Cucumber runner class that con
 
 src/inttest/resources/logback-test.xml - Logback Console Appender pattern and loggers defined for this project
 
-src/inttest/resources/config/vetservices-ci.properties – CI configuration properties such as URL are specified here.
+src/inttest/resources/config/vetservices-dev.properties – DEV configuration properties such as URL are specified here.
 
 src/inttest/resources/config/vetservices-stage.properties – STAGE configuration properties such as URL are specified here.
 
@@ -40,12 +40,12 @@ mvn clean verify -Pinttest -Dbrowser=CHROME -DwebdriverPath=”Path of the chrom
 
 Use below sample commands to execute for different environment:
 
-CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=ci -DX-Vault-Token=<> -DbaseURL=https://ci.internal.vets-api.gov:8763
+DEV: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=dev -DX-Vault-Token=<> -DbaseURL=https://dev.internal.vetservices.gov:8763
 
-CI: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<> -Dtest.env=ci -DbaseURL=https://ci.internal.vets-api.gov:8763 -Dvault.url.domain=https://vault.internal.vets-api.gov:8200
+DEV: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<> -Dtest.env=ci -DbaseURL=https://dev.internal.vetservices.gov:8763 -Dvault.url.domain=https://dev-vault.internal.vetservices.gov/
 
-STAGE : mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=stage -DX-Vault-Token=<>  -DbaseURL=https://stage.internal.vets-api.gov:8763
+STAGE : mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=stage -DX-Vault-Token=<>  -DbaseURL=https://staging.internal.vetservices.gov:8763
 
-STAGE: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<> -Dtest.env=stage -DbaseURL=https://stage.internal.vets-api.gov:8763 -Dvault.url.domain=https://vault.internal.vets-api.gov:8200
+STAGE: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<> -Dtest.env=stage -DbaseURL=https://staging.internal.vetservices.gov:8763 -Dvault.url.domain=https://staging-vault.internal.vetservices.gov/
 
 The parameter X-Vault-Token is not valid for local environment. It is passed thru pipeline. 
