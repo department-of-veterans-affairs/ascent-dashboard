@@ -22,7 +22,7 @@ eureka:
   instance:
     metadata-map:
       management:
-        context-path: /actuator
+        context-path: /
 
 
 spring:
