@@ -20,7 +20,10 @@ turbine:
 
 eureka:
   instance:
-    healthCheckUrlPath: /health
+    metadata-map:
+      management:
+        context-path: / 
+
 
 spring:
   boot:
