@@ -1,6 +1,8 @@
+management:
+  context-path: /actuator
 server:
   port: ${dashboard.server.port:8763}
-info:  
+info:
   build:
     version:  "@project.version@"
     artifact: "@project.artifactId@"
@@ -17,7 +19,7 @@ turbine:
   appConfig: ascent-demo-service
   instanceUrlSuffix: actuator/hystrix.stream
 #  clusterNameExpression: new String('default')
- 
+
 spring:
   boot:
     admin:
@@ -29,15 +31,15 @@ spring:
         endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,heapdump,loggers,auditevents,hystrix.stream
       # end::configuration-ui-hystrix[]
       # tag::configuration-ui-turbine[]
-      turbine: 
+      turbine:
 #        clusters: new String('default')
         location: ASCENT-DASHBOARD  #<1>
       # end::configuration-ui-turbine[]
-      
+
 feign:
   httpclient:
     enabled: true
-    
+
 zuul.sensitiveHeaders:
 
 ---
@@ -49,11 +51,8 @@ server:
     ######### These properties are set by the run-wrapper.sh script in the ascent-base container #########
     # key-alias: @project.name@
     # key-store: /app/certs/server.jks
-    # key-store-password: 
+    # key-store-password:
     # trust-store: /app/certs/server-truststore.jks
     # trust-store-password:
     ######################################################################################################
     client-auth: need
-
-  
-
