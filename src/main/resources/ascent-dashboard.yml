@@ -18,6 +18,10 @@ turbine:
   instanceUrlSuffix: actuator/hystrix.stream
 #  clusterNameExpression: new String('default')
 
+eureka:
+  instance:
+    healthCheckUrlPath: /health
+
 spring:
   boot:
     admin:
