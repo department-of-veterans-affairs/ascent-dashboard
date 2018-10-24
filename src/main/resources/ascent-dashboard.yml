@@ -1,5 +1,5 @@
 management:
-  context-path: /actuator
+  context-path: /
 server:
   port: ${dashboard.server.port:8763}
 info:
