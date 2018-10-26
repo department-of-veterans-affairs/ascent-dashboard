@@ -1,7 +1,7 @@
-spring: 
-  application: 
+spring:
+  application:
     name: "@project.name@"
-  config: 
+  config:
     name: "@project.name@"
   cloud:
     config:
@@ -10,8 +10,8 @@ spring:
         serviceId: ascent-config
       failFast: true
       label: development
-      username: ${ascent.security.username:admin}
-      password: ${ascent.security.password:default}
+      username: ${ascent.config.username:admin}
+      password: ${ascent.config.password:default}
       retry:
         initialInterval: 10000
         maxInterval: 300000
@@ -22,10 +22,10 @@ eureka:
   client:
     #false by default in local dev mode
     enabled: false
-  instance: 
+  instance:
     leaseRenewalIntervalInSeconds: 10
     leaseExpirationDurationInSeconds: 30
-    metadata-map: 
+    metadata-map:
       version:  "@project.version@"
       artifact: "@project.artifactId@"
       name: "@project.name@"
@@ -67,11 +67,11 @@ eureka:
     securePort: 8763
     hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
     preferIpAddress: false
-    
+
 ---
 
 spring:
     profiles: aws-stage, aws-prod
-    cloud: 
+    cloud:
       config:
         label: master
