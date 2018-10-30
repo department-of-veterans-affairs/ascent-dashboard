@@ -21,8 +21,8 @@ turbine:
 spring:
   boot:
     admin:
-      username: ${ascent.config.username:admin}
-      password: ${ascent.config.password:default}
+      username: ${ascent.dashboard.username:admin}
+      password: ${ascent.dashboard.password:default}
       context-path: /manage
       # tag::configuration-ui-hystrix[]
       routes:
