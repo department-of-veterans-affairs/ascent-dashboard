@@ -10,26 +10,19 @@ security:
   basic:
     enabled: true
   user:
-      name: ${ascent.security.username:admin}
-      password: ${ascent.security.password:default}
+      name: ${ascent.dashboard.username:admin}
+      password: ${ascent.dashboard.password:default}
 
 turbine:
   appConfig: ascent-demo-service
   instanceUrlSuffix: actuator/hystrix.stream
 #  clusterNameExpression: new String('default')
 
-eureka:
-  instance:
-    metadata-map:
-      management:
-        context-path: /
-
-
 spring:
   boot:
     admin:
-      username: ${ascent.security.username:admin}
-      password: ${ascent.security.password:default}
+      username: ${ascent.dashboard.username:admin}
+      password: ${ascent.dashboard.password:default}
       context-path: /manage
       # tag::configuration-ui-hystrix[]
       routes:
