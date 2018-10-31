@@ -13,7 +13,7 @@ public class DashboardLoginPage extends BasePage{
     }
     public void enterCredentialsandLogin() throws InterruptedException {
         try {
-        		BasePage.getDriver().get(DashboardAppUtil.getBaseURL());
+        	BasePage.getDriver().get(DashboardAppUtil.getBaseURLWithNoAuth());
         		
         }
         catch (Exception e) {
@@ -23,3 +23,4 @@ public class DashboardLoginPage extends BasePage{
     }
 
 }
+
