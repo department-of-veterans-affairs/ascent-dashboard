@@ -30,6 +30,14 @@
 	</properties>
 
 	<dependencies>
+		<!-- Ascent Test Framework -->
+		<dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-test-framework</artifactId>
+			<version>${ascent-test-framework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server</artifactId>
@@ -156,14 +164,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Ascent Test Framework -->
-		<dependency>
-			<groupId>gov.va.ascent</groupId>
-			<artifactId>ascent-test-framework</artifactId>
-			<version>0.0.10</version>
-			<scope>test</scope>
-		</dependency>
-		
 		<!-- Metrics Support -->
 		<dependency>
 		 	<groupId>org.springframework.metrics</groupId>
