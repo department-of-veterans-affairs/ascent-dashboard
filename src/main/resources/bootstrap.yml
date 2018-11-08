@@ -18,6 +18,10 @@ spring:
         multiplier: 1.2
         maxAttempts: 10
       token: ${VAULT_TOKEN:vaultroot}
+management:
+  context-path: /actuator
+
+
 eureka:
   client:
     #false by default in local dev mode
@@ -66,7 +70,13 @@ eureka:
     securePortEnabled: true
     securePort: 8763
     hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
+    statusPageUrlPath: ${management.context-path}${endpoints.info.path:/info}
+    healthCheckUrlPath: /health
     preferIpAddress: false
+    metadata-map:
+      management.context-path: /actuator
+      user.name: ${ascent.dashboard.username:admin}
+      user.password: ${ascent.dashboard.password:default}
 
 ---
 
