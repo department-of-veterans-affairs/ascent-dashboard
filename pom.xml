@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>gov.va.ascent</groupId>
 		<artifactId>ascent-platform-parent</artifactId>
-		<version>0.0.11</version>
+		<version>0.0.12-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 
@@ -20,7 +20,7 @@
 	<description>Ascent Project for Miscellaneous Dashboards</description>
 
 	<properties>
-		<!-- 3rd party versions -->
+		<!-- 3rd party versions (specific to dashboard impl) -->
 		<spring-boot-admin-server.version>1.5.7</spring-boot-admin-server.version>
 		<spring-boot-admin-server-ui.version>1.5.7</spring-boot-admin-server-ui.version>
 		<spring-boot-admin-server-ui-hystrix.version>1.5.7</spring-boot-admin-server-ui-hystrix.version>
