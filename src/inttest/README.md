@@ -42,7 +42,7 @@ Use below sample commands to execute for different environment:
 
 DEV: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=dev -DX-Vault-Token=<> -DbaseURL=https://dev.internal.vetservices.gov:8763
 
-DEV: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<> -Dtest.env=ci -DbaseURL=https://dev.internal.vetservices.gov:8763 -Dvault.url.domain=https://dev-vault.internal.vetservices.gov/
+DEV: mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -DX-Vault-Token=<> -Dtest.env=dev -DbaseURL=https://dev.internal.vetservices.gov:8763 -Dvault.url.domain=https://dev-vault.internal.vetservices.gov/
 
 STAGE : mvn -Ddockerfile.skip=true integration-test -Pinttest -Dbrowser=HtmlUnit -Dtest.env=stage -DX-Vault-Token=<>  -DbaseURL=https://staging.internal.vetservices.gov:8763
 
