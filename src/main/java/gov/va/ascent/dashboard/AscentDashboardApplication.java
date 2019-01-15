@@ -106,7 +106,7 @@ public class AscentDashboardApplication extends WebSecurityConfigurerAdapter {
 			if (csrf != null) {
 				Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
 				final String token = csrf.getToken();
-				if (cookie == null || token != null && !token.equals(cookie.getValue())) {
+				if (cookie == null || (token != null && !token.equals(cookie.getValue()))) {
 					cookie = new Cookie("XSRF-TOKEN", token);
 					cookie.setHttpOnly(true);
 					cookie.setPath("/");

@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FeignClientConfiguration {
 
-    @Value("${security.user.name:admin}")
+    @Value("${security.gateway.user.name:admin}")
     private String username;
 
-    @Value("${security.user.password:default}")
+    @Value("${security.gateway.user.password:default}")
     private String password;
 
     @Bean

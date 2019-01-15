@@ -12,6 +12,10 @@ security:
   user:
       name: ${ascent.dashboard.username:admin}
       password: ${ascent.dashboard.password:default}
+  gateway: 
+      user: 
+          name: ${ascent.dashboard.gateway.username:admin}
+          password: ${ascent.dashboard.gateway.password:default}
 
 turbine:
   appConfig: ascent-demo-service
