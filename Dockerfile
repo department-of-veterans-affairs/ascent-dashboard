@@ -10,3 +10,10 @@ RUN echo \
     no_prefix = true \
     path = "secret/ascent-dashboard" \
 }' >> $ENVCONSUL_CONFIG
+
+RUN echo \
+'secret { \
+    format = "ascent.gateway.{{ key }}" \
+    no_prefix = true \
+    path = "secret/ascent-gateway" \
+}' >> $ENVCONSUL_CONFIG
